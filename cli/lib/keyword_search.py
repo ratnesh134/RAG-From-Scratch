@@ -7,10 +7,19 @@ def clean_text(text):
 
     return text
 
+# Here tokenization is at word level
 def tokenize_text(text):
     text = clean_text(text)
     tokens = [tok for tok in text.split() if tok]
     return tokens
+
+def has_matching_token(query_tokens, movie_tokens):
+    for query_tok in query_tokens:
+        for movie_tok in movie_tokens:
+            if query_tok in movie_tok:
+                return True
+            
+    return False
 
 
 
