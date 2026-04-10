@@ -7,6 +7,14 @@ def clean_text(text):
 
     return text
 
+def tokenize_text(text):
+    text = clean_text(text)
+    tokens = [tok for tok in text.split() if tok]
+    return tokens
+
+
+
+
 
 def search_command(query, n_results):
     movies = load_movies()
