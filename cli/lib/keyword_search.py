@@ -28,10 +28,12 @@ def has_matching_token(query_tokens, movie_tokens):
 def search_command(query, n_results):
     movies = load_movies()
     res = []
+    query_tokens = tokenize_text(query)
     for movie in movies:
         
-        query = clean_text(query)
-        if query in clean_text(movie['title']):
+        movie_tokens = tokenize_text(movie['title'])
+
+        if has_matching_token(query_tokens,movie_tokens):
             res.append(movie)
         if len(res) == n_results:
             break
