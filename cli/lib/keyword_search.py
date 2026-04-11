@@ -129,4 +129,4 @@ def search_command(query, n_results):
             if len(res) >= n_results:
                 return res
             
-        return res
+    return res
