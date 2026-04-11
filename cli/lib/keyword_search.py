@@ -47,13 +47,19 @@ class InvertedIndex:
             pickle.dump(self.docmap,f)
 
 
+    def load(self):
+        with open(self.index_path,'rb') as f:
+            self.index = pickle.load(f)
+        
+        with open(self.docmap_path,'rb') as f:
+            self.docmap = pickle.load(f)
+
+
 def build_command():
     idx = InvertedIndex()
     idx.build()
     idx.save()
-    docs = idx.get_documents("merida")
-    print(f"First document for token 'merida is : {docs[0]}")
-
+    
 
 
 
