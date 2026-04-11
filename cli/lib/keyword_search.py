@@ -16,7 +16,7 @@ class InvertedIndex:
 
     def __init__(self):
         self.index = defaultdict(set)
-        self.docmap = {} #maps document IDs
+        self.docmap = {} #maps document IDs: document
         self.index_path = CACHE_PATH/'index.pkl'
         self.docmap_path = CACHE_PATH/'docmap.pkl'
 
@@ -59,7 +59,6 @@ def build_command():
     idx = InvertedIndex()
     idx.build()
     idx.save()
-    
 
 
 
@@ -109,15 +108,25 @@ def has_matching_token(query_tokens, movie_tokens):
 
 def search_command(query, n_results):
     movies = load_movies()
-    res = []
+    idx = InvertedIndex()
+    idx.load()
+    seen, res = set(), []
     query_tokens = tokenize_text(query)
-    for movie in movies:
-        
-        movie_tokens = tokenize_text(movie['title'])
-
-        if has_matching_token(query_tokens,movie_tokens):
-            res.append(movie)
-        if len(res) == n_results:
-            break
     
-    return res
+    for qt in query_tokens:
+        # use the inverted index to get any matching documentss for each token
+        matching_doc_ids = idx.get_documents(qt)
+
+        for matching_doc_id in matching_doc_ids:
+            if matching_doc_id in seen:
+                continue
+
+            seen.add(matching_doc_id)
+            matching_doc = idx.docmap[matching_doc_id]
+            res.append(matching_doc)
+
+            # Once we have 5 results we return the list
+            if len(res) >= n_results:
+                return res
+            
+        return res
