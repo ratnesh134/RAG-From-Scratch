@@ -1,5 +1,9 @@
 import argparse
-from lib.keyword_search import search_command,build_command
+from lib.keyword_search import (
+     search_command,
+     build_command,
+     tf_command,
+)
 
 
 def main() -> None:
@@ -9,7 +13,13 @@ def main() -> None:
     search_parser = subparsers.add_parser("search", help="Search movies using BM25")
 
     search_parser.add_argument("query", type=str, help="Search query")
-    search_parser = subparsers.add_parser("build", help="Build the tokens")
+    
+    search_parser = subparsers.add_parser("build", help="Search movies using BM25")
+    
+    search_parser = subparsers.add_parser("tf", help="Search movies using BM25")
+    search_parser.add_argument("doc_id", type=int , help="Document ID to check")
+    search_parser.add_argument("term", type=str, help="Search term to find count for")
+
 
     args = parser.parse_args()
 
@@ -24,6 +34,9 @@ def main() -> None:
         
         case "build":
             build_command()
+        
+        case "tf":
+            tf_command(args.doc_id,args.term)
         
         case _:
             parser.print_help()
