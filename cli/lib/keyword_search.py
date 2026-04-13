@@ -36,7 +36,7 @@ class InvertedIndex:
         token = tokenize_text(term)
         if len(token) != 1:
             raise ValueError("Can only have 1 tokens")
-        self.term_frequencies[doc_id][token]
+        return self.term_frequencies[doc_id][token[0]]
 
     def build(self):
         movies = load_movies()
@@ -69,6 +69,14 @@ class InvertedIndex:
         
         with open(self.term_frequencies_path,'rb') as f:
             self.term_frequencies = pickle.load(f)
+
+
+def tf_command(doc_id,term):
+    idx = InvertedIndex()
+    idx.load()
+    print(idx.get_tf(doc_id,term))
+
+
 
 
 def build_command():
