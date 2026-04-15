@@ -4,6 +4,7 @@ from lib.keyword_search import (
      build_command,
      tf_command,
      idf_command,
+     get_tfidf,
 )
 
 
@@ -24,6 +25,9 @@ def main() -> None:
     search_parser = subparsers.add_parser("idf", help="Calculate Inverse Document Frequency")
     search_parser.add_argument("term", type=str , help="Search term to find count for")    
 
+    search_parser = subparsers.add_parser("tfidf", help="Calculate term frequency - inverse document frequency")
+    search_parser.add_argument("doc_id", type=int , help="Document ID to check")
+    search_parser.add_argument("term", type=str, help="Search term to find count for")
 
     args = parser.parse_args()
 
@@ -44,6 +48,9 @@ def main() -> None:
         
         case "idf":
             idf_command(args.term)
+        
+        case "tfidf":
+            get_tfidf(args.doc_id,args.term)
         
         case _:
             parser.print_help()
