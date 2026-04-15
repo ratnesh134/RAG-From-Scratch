@@ -47,8 +47,15 @@ class InvertedIndex:
         token = token[0]
         doc_count = len(self.docmap)
         
-        term_match_doc_count = self.index[token]
+        term_match_doc_count = len(self.index[token])
         return math.log((doc_count + 1) / (term_match_doc_count + 1))
+
+    def get_tfidf(self,doc_id,term):
+        idx = InvertedIndex()
+        idx.load()
+        tf_idf = idx.get_tfidf(doc_id,term)
+        print(f"TF-IDF score of '{term} in document '{doc_id}' : {tf_idf:.2f}")
+
 
     def build(self):
         movies = load_movies()
