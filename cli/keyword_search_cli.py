@@ -4,7 +4,7 @@ from lib.keyword_search import (
      build_command,
      tf_command,
      idf_command,
-     get_tfidf,
+     tfidf_command,
 )
 
 
@@ -50,7 +50,7 @@ def main() -> None:
             idf_command(args.term)
         
         case "tfidf":
-            get_tfidf(args.doc_id,args.term)
+            tfidf_command(args.doc_id,args.term)
         
         case _:
             parser.print_help()
