@@ -101,6 +101,13 @@ def idf_command(term):
     idf = idx.get_idf(term)
     print(f"Inverse document frequency of '{term}' : {idf:.2}")
 
+
+def tfidf_command(doc_id,term):
+    idx = InvertedIndex()
+    idx.load()
+    tfidf = idx.get_tfidf(doc_id,term)
+    print(f"TF-IDF score of '{term}' in document '{doc_id}': {tfidf:.2f}")
+
 def build_command():
     idx = InvertedIndex()
     idx.build()
