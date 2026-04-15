@@ -3,6 +3,7 @@ from lib.keyword_search import (
      search_command,
      build_command,
      tf_command,
+     idf_command,
 )
 
 
@@ -14,11 +15,14 @@ def main() -> None:
 
     search_parser.add_argument("query", type=str, help="Search query")
     
-    search_parser = subparsers.add_parser("build", help="Search movies using BM25")
+    search_parser = subparsers.add_parser("build", help="Build Cache")
     
-    search_parser = subparsers.add_parser("tf", help="Search movies using BM25")
+    search_parser = subparsers.add_parser("tf", help="Calculate term frequency")
     search_parser.add_argument("doc_id", type=int , help="Document ID to check")
     search_parser.add_argument("term", type=str, help="Search term to find count for")
+
+    search_parser = subparsers.add_parser("idf", help="Calculate Inverse Document Frequency")
+    search_parser.add_argument("term", type=str , help="Search term to find count for")    
 
 
     args = parser.parse_args()
@@ -37,6 +41,9 @@ def main() -> None:
         
         case "tf":
             tf_command(args.doc_id,args.term)
+        
+        case "idf":
+            idf_command(args.term)
         
         case _:
             parser.print_help()
