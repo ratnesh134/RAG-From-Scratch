@@ -8,6 +8,7 @@ import os
 import pickle
 from nltk.stem import PorterStemmer
 from collections import defaultdict, Counter
+import math
 
 stemmer = PorterStemmer()
 
@@ -37,6 +38,17 @@ class InvertedIndex:
         if len(token) != 1:
             raise ValueError("Can only have 1 tokens")
         return self.term_frequencies[doc_id][token[0]]
+
+
+    def get_idf(self,term):
+        token = tokenize_text(term)
+        if len(token) != 1:
+            raise ValueError("Can only have 1 token")
+        token = token[0]
+        doc_count = len(self.docmap)
+        
+        term_match_doc_count = self.index[token]
+        return math.log((doc_count + 1) / (term_match_doc_count + 1))
 
     def build(self):
         movies = load_movies()
